@@ -4,8 +4,17 @@
 
 struct UserProfile {
     char username[50];
-
+    char theme[10]; // light or dark
 };
+void saveProfile(struct UserProfile user) {
+    FILE *fp = fopen("user_profile.dat", "wb");
+    if (fp == NULL) {
+        printf("Error saving profile!\n");
+        return;
+    }
+    fwrite(&user, sizeof(user), 1, fp);
+    fclose(fp);
+}
 
 void backupData() {
     

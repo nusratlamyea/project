@@ -4,6 +4,7 @@
 
 struct UserProfile {
     char username[50];
+
 };
 
 void backupData() {
@@ -46,7 +47,7 @@ void Menu() {
         scanf("%d", &choice);
 
         switch (choice) {
-            // case 1: updateProfile(); break;
+            // case 1: updateProfile(); break; // work on progress
             // case 2: backupData(); break;
             // case 3: restoreData(); break;
             // case 4: exportData(); break;

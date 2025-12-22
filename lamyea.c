@@ -15,6 +15,15 @@ void saveProfile(struct UserProfile user) {
     fwrite(&user, sizeof(user), 1, fp);
     fclose(fp);
 }
+struct UserProfile loadProfile() {
+    struct UserProfile user;
+    FILE *fp = fopen("user_profile.dat", "rb");
+
+    if (fp == NULL) {
+        // Default profile
+        strcpy(user.username, "Guest");
+        strcpy(user.theme, "Light");
+        return user;
 
 void backupData() {
     

@@ -24,7 +24,21 @@ struct UserProfile loadProfile() {
         strcpy(user.username, "Guest");
         strcpy(user.theme, "Light");
         return user;
+    }
+    fread(&user, sizeof(user), 1, fp);
+    fclose(fp);
+    return user;
+} void updateProfile() {
+    struct UserProfile user;
+    printf("\nEnter your name: ");
+    scanf(" %[^\n]", user.username);
 
+    printf("Choose Theme (Light/Dark): ");
+    scanf("%s", user.theme);
+
+    saveProfile(user);
+    printf("Profile updated successfully!\n");
+}
 void backupData() {
     
 }

@@ -39,14 +39,58 @@ struct UserProfile loadProfile() {
     saveProfile(user);
     printf("Profile updated successfully!\n");
 }
+
+void applyTheme(struct UserProfile user) {
+    if (strcmp(user.theme, "Dark") == 0 || strcmp(user.theme, "dark") == 0) {
+        printf("\nDark Mode Activated\n");
+    } else {
+        printf("\nLight Mode Activated\n");
+    }
+}
+
 void backupData() {
-    
+    FILE *source = fopen("reminders.dat", "rb");
+    FILE *backup = fopen("backup.dat", "wb");
+
+    if (!source || !backup) {
+        printf("Backup failed!\n");
+        return;
+    } char ch;
+    while ((ch = fgetc(source)) != EOF) {
+        fputc(ch, backup);
+    } fclose(source);
+    fclose(backup);
+    printf("Backup created successfully!\n");
 }
+
 void restoreData() {
-    
+    FILE *backup = fopen("backup.dat", "rb");
+    FILE *restore = fopen("reminders.dat", "wb");
+
+    if (!backup || !restore) {
+        printf("Restore failed!\n");
+        return;
+    } char ch;
+    while ((ch = fgetc(backup)) != EOF) {
+        fputc(ch, restore);
+    } fclose(backup);
+    fclose(restore);
+    printf("Data restored successfully!\n");
 }
+
 void exportData() {
-    
+    FILE *source = fopen("reminders.dat", "r");
+    FILE *export = fopen("reminders_export.txt", "w");
+
+    if (!source || !export) {
+        printf("Export failed!\n");
+        return;
+    } char line[200];
+    while (fgets(line, sizeof(line), source)) {
+        fprintf(export, "%s", line);
+    } fclose(source);
+    fclose(export);
+    printf("Data exported to reminders_export.txt\n");
 }
 void showHelp() {
     printf("\n===== HELP SECTION =====\n");
@@ -65,7 +109,8 @@ void showAbout() {
 
 void Menu() {
     int choice;
-
+    struct UserProfile user = loadProfile();
+    applyTheme(user);
     do {
         printf("\n--- Menu ---\n");
         printf("1. Update Profile\n");
@@ -79,10 +124,10 @@ void Menu() {
         scanf("%d", &choice);
 
         switch (choice) {
-            // case 1: updateProfile(); break; // work on progress
-            // case 2: backupData(); break;
-            // case 3: restoreData(); break;
-            // case 4: exportData(); break;
+            case 1: updateProfile(); break;
+            case 2: backupData(); break;
+            case 3: restoreData(); break;
+            case 4: exportData(); break;
             case 5: showHelp(); break;
             case 6: showAbout(); break;
             case 0: printf("Exiting module...\n"); break;
@@ -90,7 +135,6 @@ void Menu() {
         }
     } while (choice != 0);
 }
-
 
 int main() {
     Menu();
